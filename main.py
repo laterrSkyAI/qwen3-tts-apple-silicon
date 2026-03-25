@@ -58,6 +58,32 @@ EMOTION_EXAMPLES = [
     "Whispering quietly"
 ]
 
+LANGUAGES = {
+    "1": ("english", "English"),
+    "2": ("russian", "Russian"),
+    "3": ("chinese", "Chinese"),
+    "4": ("japanese", "Japanese"),
+    "5": ("korean", "Korean"),
+    "6": ("french", "French"),
+    "7": ("german", "German"),
+    "8": ("spanish", "Spanish"),
+    "9": ("auto", "Auto-detect"),
+}
+
+
+def select_language():
+    """Выбор языка генерации."""
+    print("\nLanguage:")
+    for key, (code, name) in LANGUAGES.items():
+        print(f"  {key}. {name} ({code})")
+    choice = input("Choice (1-9): ").strip()
+    if choice in LANGUAGES:
+        code, name = LANGUAGES[choice]
+        print(f"Using: {name}")
+        return code
+    print("Defaulting to auto-detect")
+    return "auto"
+
 
 def flush_input():
     try:
@@ -253,6 +279,8 @@ def run_custom_session(model_key):
         print(f"  - {ex}")
     base_instruct = input("Emotion Instruction: ").strip() or "Normal tone"
 
+    lang_code = select_language()
+
     print("\nSpeed:")
     print("  1. Normal (1.0x)")
     print("  2. Fast (1.3x)")
@@ -271,8 +299,9 @@ def run_custom_session(model_key):
         print("Generating...")
         temp_dir = make_temp_dir()
         try:
-            generate_audio(model=model, text=text, voice=speaker, 
-                         instruct=base_instruct, speed=speed, output_path=temp_dir)
+            generate_audio(model=model, text=text, voice=speaker,
+                         instruct=base_instruct, speed=speed, lang_code=lang_code,
+                         output_path=temp_dir)
             save_audio_file(temp_dir, info["output_subfolder"], text)
         except Exception as e:
             print(f"Error: {e}")
@@ -298,6 +327,8 @@ def run_design_session(model_key):
     if not instruct:
         return
 
+    lang_code = select_language()
+
     while True:
         text = get_safe_input()
         if text is None:
@@ -305,7 +336,8 @@ def run_design_session(model_key):
         print("Generating...")
         temp_dir = make_temp_dir()
         try:
-            generate_audio(model=model, text=text, instruct=instruct, output_path=temp_dir)
+            generate_audio(model=model, text=text, instruct=instruct,
+                         lang_code=lang_code, output_path=temp_dir)
             save_audio_file(temp_dir, info["output_subfolder"], text)
         except Exception as e:
             print(f"Error: {e}")
@@ -376,6 +408,8 @@ def run_clone_manager(model_key):
     else:
         return
 
+    lang_code = select_language()
+
     while True:
         text = get_safe_input(f"\nText for '{os.path.basename(str(ref_audio))}' (or 'exit'): ")
         if text is None:
@@ -383,8 +417,8 @@ def run_clone_manager(model_key):
         print("Cloning...")
         temp_dir = make_temp_dir()
         try:
-            generate_audio(model=model, text=text, ref_audio=ref_audio, 
-                         ref_text=ref_text, output_path=temp_dir)
+            generate_audio(model=model, text=text, ref_audio=ref_audio,
+                         ref_text=ref_text, lang_code=lang_code, output_path=temp_dir)
             save_audio_file(temp_dir, info["output_subfolder"], text)
         except Exception as e:
             print(f"Error: {e}")

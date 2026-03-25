@@ -1,8 +1,17 @@
 # Qwen3-TTS for Mac - Run AI Text-to-Speech Locally on Apple Silicon
 
-Run **Qwen3-TTS** text-to-speech AI locally on your MacBook with Apple Silicon (M1, M2, M3, M4). No cloud, no API keys, completely offline.
+> **Fork of [kapi2800/qwen3-tts-apple-silicon](https://github.com/kapi2800/qwen3-tts-apple-silicon)**
+> Adapted for the [laterrSkyAI](https://github.com/laterrSkyAI) AI streamer project.
 
-**Keywords:** Qwen TTS Mac, Qwen3 TTS Apple Silicon, MLX text to speech, local TTS Mac, voice cloning Mac, AI voice generator MacBook
+## What's different from the original
+
+- **Multi-language support** — added language selection (Russian, English, Chinese, Japanese, Korean, French, German, Spanish) to all generation modes (Custom Voice, Voice Design, Voice Cloning)
+- **Voice benchmarks** — scripts for comparing different voice styles, models, and cloning performance on Apple Silicon
+- **AI streamer focus** — this fork is tailored for building a real-time TTS pipeline for an AI streamer character
+
+---
+
+Run **Qwen3-TTS** text-to-speech AI locally on your MacBook with Apple Silicon (M1, M2, M3, M4). No cloud, no API keys, completely offline.
 
 ---
 
@@ -36,7 +45,7 @@ MLX runs natively on the Apple Neural Engine and GPU, meaning better performance
 ### 1. Clone and setup
 
 ```bash
-git clone https://github.com/kapi2800/qwen3-tts-apple-silicon.git
+git clone https://github.com/laterrSkyAI/qwen3-tts-apple-silicon.git
 cd qwen3-tts-apple-silicon
 python3 -m venv .venv
 source .venv/bin/activate
@@ -81,6 +90,26 @@ python main.py
 
 ---
 
+## Benchmarks
+
+Run benchmarks to test performance on your hardware:
+
+```bash
+# Basic benchmark (1.7B CustomVoice)
+python benchmark.py
+
+# Lite model benchmark (0.6B)
+python benchmark_lite.py
+
+# Compare 8 different female voice styles (VoiceDesign)
+python benchmark_voices.py
+
+# Voice cloning benchmark (Base)
+python benchmark_clone.py
+```
+
+---
+
 ## Usage
 
 ```
@@ -102,7 +131,7 @@ python main.py
 
   q. Exit
 
-Select: 
+Select:
 ```
 
 - **Custom Voice**: Pick from preset speakers, set emotion and speed
@@ -140,11 +169,7 @@ Select:
 
 ## Related Projects
 
+- [Original repo](https://github.com/kapi2800/qwen3-tts-apple-silicon) - Upstream project by kapi2800
 - [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) - Original Qwen3-TTS by Alibaba
 - [MLX Audio](https://github.com/Blaizzy/mlx-audio) - MLX framework for audio models
 - [MLX Community](https://huggingface.co/mlx-community) - Pre-converted MLX models
-
-
----
-
-**If this project helped you, please give it a ⭐ star!**

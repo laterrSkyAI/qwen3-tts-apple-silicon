@@ -14,6 +14,15 @@ voices/*
 outputs/*
 !outputs/.gitkeep
 
+# Benchmark outputs
+benchmark_output/
+benchmark_output_lite/
+benchmark_voices_output/
+benchmark_clone_output/
+
+# Reference voices (personal audio)
+ref_voices/
+
 # System files
 .DS_Store
 __pycache__/
